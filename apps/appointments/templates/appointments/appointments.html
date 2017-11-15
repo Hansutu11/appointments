@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Appointments</title>
+  </head>
+  <body>
+
+      <h2>Hello, {{user.name}}!</h2>
+      <a href="/">Logout</a>
+
+      <h5>Here are your appointments for today, {{date}}</h5>
+      <table >
+          <tr>
+              <th>Tasks</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Action</th>
+          </tr>
+          {% for ap in appointment %}
+          <tr>
+              <td>{{ap.task}}</td>
+              <td> {{ap.time}} </td>
+              <td> {{ap.status}} </td>
+              <td> <a href="/appointments/{{ap.id}}">Edit</a> <a href="/delete/{{ap.id}}">Delete</a> </td>
+          </tr>
+          {% endfor %}
+      </table>
+      <br>
+      <h5>Your Other appointments:</h5>
+      <table >
+              <tr>
+                  <th>Tasks</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+              </tr>
+              {% for ap in later_appointment %}
+              <tr>
+                  <td>{{ap.task}}</td>
+                  <td>{{ap.date}}</td>
+                  <td> {{ap.time}} </td>
+                  <td> {{ap.status}} </td>
+                  <td> <a href="/appointments/{{ap.id}}">Edit</a> <a href="/delete/{{ap.id}}">Delete</a> </td>
+              </tr>
+              {% endfor %}
+          </table>
+          <br>
+          <br>
+          <br>
+      <h3>Add Appointment</h3>
+      {% if messages %}
+      {% for message in messages %}
+      <p>{{ message }}</p>
+      {% endfor %}
+      {% endif %}
+          <form action="/new_appointment" method="post">
+          {% csrf_token %}
+          <p>Date: <input type="date" name="date"> </p>
+          <p>Time: <input type="time" name="time" > </p>
+          <p>Tasks: <input type="text" name="task" > </p>
+          <input type="submit" class="btn-info" value="Add" >
+          </form>
+
+  </body>
+</html>
